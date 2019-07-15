@@ -12,9 +12,8 @@ class DataChamber extends Component {
     constructor(props) {
         super();
 
-        this.actions = props.config.actions;
+        this.procedures = props.config.procedures;
         this.store = {
-            dispatch: this._dispatch,
             getData: this._getData,
             getError: this._getError,
             getState: this._getState,
@@ -22,6 +21,7 @@ class DataChamber extends Component {
             isLoading: this._isLoading,
             isModified: this._isModified,
             isSaving: this._isSaving,
+            process: this._process,
             queryAsync: this._queryAsync,
             resetToCachedData: this._resetToCachedData,
             resetToDefaultData: this._resetToDefaultData,
@@ -38,10 +38,6 @@ class DataChamber extends Component {
         this.types = getInitializedTypes(props.config.types);
     }
 
-    _dispatch = ({ args: actionArgs, action: actionName }) => {
-        return this.actions[actionName](this.store, actionArgs);
-    };
-
     _getData = typeName => {
         if (typeName) {
             return this.types[typeName].data;
@@ -53,7 +49,7 @@ class DataChamber extends Component {
         }
     };
 
-    _getError = ({ type: typeName, reducer: reducerName }) => {
+    _getError = ({ reducer: reducerName, type: typeName }) => {
         const mutation = this.types[typeName].mutations[reducerName];
         const query = this.types[typeName].queries[reducerName];
 
@@ -72,7 +68,7 @@ class DataChamber extends Component {
         return this._getError(options) ? true : false;
     };
 
-    _isLoading = ({ type: typeName, reducer: reducerName }) => {
+    _isLoading = ({ reducer: reducerName, type: typeName }) => {
         return this.types[typeName].queries[reducerName].isLoading;
     };
 
@@ -80,11 +76,15 @@ class DataChamber extends Component {
         return this.types[typeName].isModified;
     };
 
-    _isSaving = ({ type: typeName, reducer: reducerName }) => {
+    _isSaving = ({ reducer: reducerName, type: typeName }) => {
         return this.types[typeName].mutations[reducerName].isSaving;
     };
 
-    _queryAsync = ({ args: reducerArgs, reducer: reducerName, type: typeName }) => {
+    _process = ({ type: processName }, args) => {
+        return this.procedures[processName](this.store, args);
+    };
+
+    _queryAsync = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
         const queryOptions = {
             getData: this._getData,
             getState: this._getState,
@@ -140,7 +140,7 @@ class DataChamber extends Component {
             console.log({ action: "RESET_TO_PREVIOUS_DATA", type: typeName, data: this._getData(typeName) });
     };
 
-    _saveAsync = ({ args: reducerArgs, reducer: reducerName, type: typeName }) => {
+    _saveAsync = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
         const mutationOptions = {
             getData: this._getData,
             getState: this._getState,
@@ -207,7 +207,7 @@ class DataChamber extends Component {
         this._updateConsumers();
     };
 
-    _update = ({ args: reducerArgs, reducer: reducerName, type: typeName }) => {
+    _update = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
         const updateOptions = {
             getData: this._getData,
             getState: this._getState,
