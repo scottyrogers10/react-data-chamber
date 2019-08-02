@@ -1,6 +1,6 @@
 {
     "name": "react-data-chamber",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "A global data store for react apps that seamlessly handles synchronous and asynchronous updates.",
     "main": "./dist/index.js",
     "scripts": {

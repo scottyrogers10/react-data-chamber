@@ -3,7 +3,7 @@ import { produce } from "immer";
 const executeUpdate = ({ getData, getState, mode, setTypes, typeName, reducerName, reducerArgs }) => {
     const type = getState(typeName);
     const reducer = type.updates[reducerName].reducer;
-    const data = reducer(getData, reducerArgs);
+    const data = reducer(getData(typeName), reducerArgs);
 
     const updatedType = produce(type, draft => {
         draft.isModified = true;

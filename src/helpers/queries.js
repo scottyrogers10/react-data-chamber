@@ -49,7 +49,7 @@ const setQueryStateAsync = ({ getData, getState, mode, setTypes, typeName, start
         ? pendingRequests[`QUERY_${typeName}_${reducerName}`].push(startTime)
         : (pendingRequests[`QUERY_${typeName}_${reducerName}`] = [startTime]);
 
-    return reducer(getData, reducerArgs).then(data => {
+    return reducer(getData(typeName), reducerArgs).then(data => {
         const endTime = new Date().getTime();
         const delay = queryDelay - (endTime - startTime);
         const latestRequestTime = pendingRequests[`QUERY_${typeName}_${reducerName}`].slice(-1)[0];
