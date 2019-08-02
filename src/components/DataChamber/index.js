@@ -6,7 +6,7 @@ import { executeMutationAsync } from "../../helpers/mutations";
 import { executeQueryAsync } from "../../helpers/queries";
 import { executeUpdate } from "../../helpers/updates";
 import { getInitializedTypes } from "../../helpers/initializers";
-import compareStoreToProps from "../../helpers/compareStoreToProps";
+import shallowEqual from "../../helpers/shallowEqual";
 
 class DataChamber extends Component {
     constructor(props) {
@@ -226,7 +226,7 @@ class DataChamber extends Component {
             const wrappedInstance = subscriber.wrappedInstance;
             const storeToProps = wrappedInstance.mapStoreToProps(this.store, wrappedInstance.props);
 
-            if (!compareStoreToProps(storeToProps, subscriber.prevStoreToProps)) {
+            if (!shallowEqual(storeToProps, subscriber.prevStoreToProps)) {
                 if (subscriber.wrappedInstance.mounted) {
                     subscriber.prevStoreToProps = storeToProps;
                     subscriber.wrappedInstance.forceUpdate();
