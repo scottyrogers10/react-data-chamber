@@ -86,7 +86,6 @@ class DataChamber extends Component {
 
     _queryAsync = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
         const queryOptions = {
-            getData: this._getData,
             getState: this._getState,
             mode: this.props.mode,
             setTypes: this._setTypes,
@@ -142,7 +141,6 @@ class DataChamber extends Component {
 
     _saveAsync = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
         const mutationOptions = {
-            getData: this._getData,
             getState: this._getState,
             mode: this.props.mode,
             setTypes: this._setTypes,
@@ -209,7 +207,6 @@ class DataChamber extends Component {
 
     _update = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
         const updateOptions = {
-            getData: this._getData,
             getState: this._getState,
             mode: this.props.mode,
             setTypes: this._setTypes,

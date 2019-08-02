@@ -59,7 +59,7 @@ const setMutationStateAsync = ({
         ? pendingRequests[`MUTATION_${typeName}_${reducerName}`].push(startTime)
         : (pendingRequests[`MUTATION_${typeName}_${reducerName}`] = [startTime]);
 
-    return reducer(getData(typeName), reducerArgs).then(data => {
+    return reducer(type.data, reducerArgs).then(data => {
         const endTime = new Date().getTime();
         const delay = mutationDelay - (endTime - startTime);
         const latestRequestTime = pendingRequests[`MUTATION_${typeName}_${reducerName}`].slice(-1)[0];

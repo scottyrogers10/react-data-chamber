@@ -40,7 +40,7 @@ const setErrorStateAsync = (error, { getState, setTypes, startTime, typeName, re
     });
 };
 
-const setQueryStateAsync = ({ getData, getState, mode, setTypes, typeName, startTime, reducerName, reducerArgs }) => {
+const setQueryStateAsync = ({ getState, mode, setTypes, typeName, startTime, reducerName, reducerArgs }) => {
     const type = getState(typeName);
     const queryDelay = type.queries[reducerName].delay;
     const reducer = type.queries[reducerName].reducer;
@@ -49,7 +49,7 @@ const setQueryStateAsync = ({ getData, getState, mode, setTypes, typeName, start
         ? pendingRequests[`QUERY_${typeName}_${reducerName}`].push(startTime)
         : (pendingRequests[`QUERY_${typeName}_${reducerName}`] = [startTime]);
 
-    return reducer(getData(typeName), reducerArgs).then(data => {
+    return reducer(type.data, reducerArgs).then(data => {
         const endTime = new Date().getTime();
         const delay = queryDelay - (endTime - startTime);
         const latestRequestTime = pendingRequests[`QUERY_${typeName}_${reducerName}`].slice(-1)[0];
