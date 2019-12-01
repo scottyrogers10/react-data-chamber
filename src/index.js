@@ -1,4 +1,4 @@
-import DataChamber from "./components/DataChamber";
-import injectStoreProps from "./components/injectStoreProps";
+import Store from "./components/Store";
+import injectProps from "./components/injectProps";
 
-export { DataChamber, injectStoreProps };
+export { Store, injectProps };
