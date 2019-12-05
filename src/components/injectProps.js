@@ -14,6 +14,8 @@ const injectProps = (mapStoreToProps, configs = {}) => {
       shouldComponentUpdate(prevProps) {
         if (configs.shouldDeepCheck) {
           return !equals(prevProps, this.props);
+        } else {
+          return true;
         }
       }
 
