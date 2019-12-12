@@ -208,15 +208,19 @@ class Store extends Component {
   };
 
   _subscribe = wrappedInstance => {
-    this.subscribers.push({ wrappedInstance, prevStoreToProps: {} });
-    this._updateConsumers();
+    const storeToProps = wrappedInstance.mapStoreToProps(
+      this.store,
+      wrappedInstance.props
+    );
+
+    this.subscribers.push({ wrappedInstance, prevStoreToProps: storeToProps });
+    wrappedInstance.forceUpdate();
   };
 
   _unsubscribe = wrappedInstance => {
     this.subscribers = this.subscribers.filter(
       subsciber => subsciber.wrappedInstance !== wrappedInstance
     );
-    this._updateConsumers();
   };
 
   _update = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
