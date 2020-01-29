@@ -80,8 +80,8 @@ class Store extends Component {
     return this.types[typeName].mutations[reducerName].isSaving;
   };
 
-  _process = ({ type: processName }, args) => {
-    return this.procedures[processName](this.store, args);
+  _process = ({ reducer: reducerName, type: typeName }, args) => {
+    return this.procedures[typeName][reducerName](this.store, args);
   };
 
   _queryAsync = ({ reducer: reducerName, type: typeName }, reducerArgs) => {
